@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react'
 import { connect } from 'react-redux'
-import {Button} from '@material-ui/core'
 import {Typography} from '@material-ui/core'
 import {getAllFlights, getFlightsFromOrigin, selectOrigin, selectDestination, getFlight, getOriginsFromDatabase} from '../actions/flights'
 import Table from '@material-ui/core/Table'
@@ -17,23 +16,28 @@ class Home extends PureComponent{
     }
 
     componentDidMount(){
-        getOriginsFromDatabase()
+        this.props.getOriginsFromDatabase()
     }
+    // componentDidUpdate(){
+    //     this.props.destinations && this.props.selectDestination(this.props.destinations[0])&& console.log("did update" + this.props.destinations[0])
+    //     this.props.origin && this.props.destination && getFlight(this.props.origin, this.props.destinations[0])
+    // }
     selectDeparture = (origin)=>{
         this.props.selectOrigin(origin)
         this.props.getFlightsFromOrigin(origin)
-        // this.props.selectDestination("")
+
     }
 
     selectDestination = (destination)=>{
         this.props.selectDestination(destination)
         this.props.getFlight(this.props.origin, destination )
     }
-    handleChange1 = (select1) => {
+    handleChange1 = async (select1) => {
         this.setState({ select1 });
         this.props.selectOrigin(select1.value)
         this.props.getFlightsFromOrigin(select1.value)
-        this.props.getFlight()
+        this.setState({select2: null})
+        this.props.getFlight(select1.value, this.props.destination)
       }
 
       handleChange2 = (select2) => {
@@ -41,31 +45,26 @@ class Home extends PureComponent{
         this.props.selectDestination(select2.value)
         this.props.getFlight(this.props.origin,select2.value)
       }
-    render(){
+      render(){
         let destinationOptions = null
-
-        const {flights, origin, destinations, destination} = this.props
-        const origins = [
-            {value:"Amsterdam", label: "Amsterdam"},
-            {value: "Frankfurt", label:"Frankfurt"}, 
-            {value: "London", label: "London"}
-        ]
-        if(destinations) destinationOptions = destinations.map(destination=> {return {value: destination, label: destination}})
-
-        destinations && console.log(destinationOptions)
-        destinations && console.log(origins)
-        
+        let originOptions = null
         const { select1, select2 } = this.state;
 
+        const {flights, origins, origin, destinations, destination} = this.props
+        
+        if(origins) originOptions = origins.map(origin=>{return {value: origin, label: origin}})     
+        
+        if(destinations) destinationOptions = destinations.map(destination=> {return {value: destination, label: destination}})
+        
         return(
             <div>
                 {/* <Button onClick={()=>this.props.getAllFlights()}> See All Flights</Button> */}
                 <div className="selectOrigin">
                 <Typography variant="title"> Departure From </Typography>
-                <Select value={select1}
+                {origins && <Select value={select1}
                 onChange={this.handleChange1}
-                options={origins}
-                ></Select>
+                options={originOptions}
+                ></Select>}
                 {/* {origins.map(origin=><Button onClick={()=>this.selectDeparture(origin.value)}>{origin.value}</Button>)} */}
                 </div>
                 {origin && <Typography variant="title">
@@ -125,7 +124,8 @@ class Home extends PureComponent{
 const mapStateToProps = state =>({
     flights: state.flights.flights,
     origin: state.origin,
+    origins:state.origins,
     destination: state.destination,
     destinations: state.destinations
 })
-export default connect(mapStateToProps,{getAllFlights, getFlightsFromOrigin, selectOrigin, selectDestination, getFlight})(Home)
+export default connect(mapStateToProps,{getAllFlights, getFlightsFromOrigin, selectOrigin, selectDestination, getFlight, getOriginsFromDatabase})(Home)
