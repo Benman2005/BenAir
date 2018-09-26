@@ -7,7 +7,16 @@ export default class MainController {
     @Get('/flights')
     getFlights = async() =>{
         const flights = await Flight.find()
+        if(!flights) throw new NotFoundError(`Destination does not exist`)
         return {flights}
+    }
+
+    @Get('/origins')
+    getOrigins = async() =>{
+        const flights = await Flight.find()
+        if(!flights) throw new NotFoundError(`Destination does not exist`)
+        console.log(flights.map(flight=>flight.origin))
+        return flights.map(flight=>flight.origin)
     }
 
     @Post('/destination')
@@ -15,7 +24,6 @@ export default class MainController {
         @Body() flight: Partial<Flight>
     ){const flights = await Flight.find({where: {origin:flight.origin}})
     if(!flights) throw new NotFoundError(`Destination does not exist`)
-    console.log(flights.map(flight=>flight.destination))
     return flights.map(flight=>flight.destination)
     }
     

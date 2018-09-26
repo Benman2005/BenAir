@@ -18,14 +18,22 @@ let MainController = class MainController {
     constructor() {
         this.getFlights = async () => {
             const flights = await flight_1.Flight.find();
+            if (!flights)
+                throw new routing_controllers_1.NotFoundError(`Destination does not exist`);
             return { flights };
+        };
+        this.getOrigins = async () => {
+            const flights = await flight_1.Flight.find();
+            if (!flights)
+                throw new routing_controllers_1.NotFoundError(`Destination does not exist`);
+            console.log(flights.map(flight => flight.origin));
+            return flights.map(flight => flight.origin);
         };
     }
     async findDestination(flight) {
         const flights = await flight_1.Flight.find({ where: { origin: flight.origin } });
         if (!flights)
             throw new routing_controllers_1.NotFoundError(`Destination does not exist`);
-        console.log(flights.map(flight => flight.destination));
         return flights.map(flight => flight.destination);
     }
     async findFlight(flight) {
@@ -39,6 +47,10 @@ __decorate([
     routing_controllers_1.Get('/flights'),
     __metadata("design:type", Object)
 ], MainController.prototype, "getFlights", void 0);
+__decorate([
+    routing_controllers_1.Get('/origins'),
+    __metadata("design:type", Object)
+], MainController.prototype, "getOrigins", void 0);
 __decorate([
     routing_controllers_1.Post('/destination'),
     __param(0, routing_controllers_1.Body()),

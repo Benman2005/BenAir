@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import { connect } from 'react-redux'
 import {Button} from '@material-ui/core'
 import {Typography} from '@material-ui/core'
-import {getAllFlights, getFlightsFromOrigin, selectOrigin, selectDestination, getFlight} from '../actions/flights'
+import {getAllFlights, getFlightsFromOrigin, selectOrigin, selectDestination, getFlight, getOriginsFromDatabase} from '../actions/flights'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -14,6 +14,10 @@ class Home extends PureComponent{
     state={
         select1:null,
         select2:null
+    }
+
+    componentDidMount(){
+        getOriginsFromDatabase()
     }
     selectDeparture = (origin)=>{
         this.props.selectOrigin(origin)
@@ -47,9 +51,12 @@ class Home extends PureComponent{
             {value: "London", label: "London"}
         ]
         if(destinations) destinationOptions = destinations.map(destination=> {return {value: destination, label: destination}})
+
         destinations && console.log(destinationOptions)
         destinations && console.log(origins)
+        
         const { select1, select2 } = this.state;
+
         return(
             <div>
                 {/* <Button onClick={()=>this.props.getAllFlights()}> See All Flights</Button> */}
