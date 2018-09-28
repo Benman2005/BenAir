@@ -33,13 +33,15 @@ export const updateLogs = (logs) =>({
     type: UPDATE_LOGS,
     payload: logs
 })
-
+//this logs response status and times to response table 
 const logResponse = (response, responseTime)=>{
     const status=response.status
     request.post(`${baseUrl}/response`)
         .send({status, responseTime})
         .catch(err=>console.log(err))
 }
+
+//gets all origins
 export const getOriginsFromDatabase = () => (dispatch) =>{
     const newDate1 = new Date()
     request
@@ -50,6 +52,7 @@ export const getOriginsFromDatabase = () => (dispatch) =>{
             dispatch(getOrigins(result.body))&& logResponse(result, dif)})
         .catch(err=> console.log(err))
 }
+//no longer in use
 export const getAllFlights = () => (dispatch) =>{
     const newDate1 = new Date()
     request
@@ -60,6 +63,8 @@ export const getAllFlights = () => (dispatch) =>{
             dispatch(updateFlights(result.body))&& logResponse(result, dif)})
         .catch(err=> console.log(err))
 }
+
+//gets available destinations based on origin
 export const getFlightsFromOrigin = (origin) => (dispatch) =>{
     const newDate1 = new Date()
     request
@@ -71,6 +76,8 @@ export const getFlightsFromOrigin = (origin) => (dispatch) =>{
              dispatch(getDestinations(result.body))&& logResponse(result, dif)})
         .catch(err=> console.log(err))
 }
+
+//gets available flights based on origin and destination
 export const getFlight = (origin, destination) => (dispatch) =>{
     const newDate1 = new Date()
     request
@@ -82,7 +89,7 @@ export const getFlight = (origin, destination) => (dispatch) =>{
             dispatch(updateFlights(result.body))&& logResponse(result, dif)})
         .catch(err=> console.log(err))
 }
-
+// used in Logs page to get stats from response table
 export const getLogs = () => (dispatch)=>{
     request
         .get(`${baseUrl}/response`)

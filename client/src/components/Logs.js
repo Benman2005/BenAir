@@ -6,11 +6,8 @@ import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
-// import TableHead from '@material-ui/core/TableHead'
-// import Grid from '@material-ui/core/Grid'
 
-class Logs extends PureComponent{
-    
+class Logs extends PureComponent{  
     componentDidMount(){
         this.props.getLogs()
     }
@@ -36,7 +33,6 @@ class Logs extends PureComponent{
         )
     }
 }
-
 const mapStateToProps = state=>({
     logs:state.logs
 })

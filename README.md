@@ -1,4 +1,40 @@
 # Javascript Full Stack Test#
+  This Project uses React-Redux in the front/client side, and TypeOrm(Typescript), Koa and Postgres in the back/server end.
+  It's basically a tiny page to find airplane tickets on the homepage.
+  Logs of requests are also available to see in /logs(super secret, don't tell anyone, since no authentication was added yet)
+
+# Instructions
+
+To run this application you'll need a postgres cient to connect to via something like docker. after that:
+
+* clone folder
+* go to /server folder
+..* yarn install
+..* yarn start
+* go to /client folder
+..* yarn install
+..* yarn start
+  
+# Aim
+
+By no means did I fulfill all wishes in this assignment, but I managed to tick some off.
+
+## What i did do:
+* Front end with searchable origins/destinations and flights
+* Front end with some stats on requests
+* Backend with flights and response table
+* Response logging. Not the way I wanted, but kinda works for now.
+* Used noImplicitAny flag with Typescript.
+* Build app with state management, using standalone modules and components.
+
+## What i didn't do:
+* RAML api documentation
+* In memory database. Next time try to make backend with Redis.
+* Authentication for accessing logs.
+* Add tests
+
+---
+This is how i received the assignment:
 
 # Story
 You are providing a service to a charted airplane company. This fiction company LINKIT AIR has the following flights daily (times are in departure city time):
@@ -65,6 +101,3 @@ At least the functionality that you deliver should be error free. What you imple
 * Create and explain in a Markdown about your decisions in the process.
 * When it is done, let your LINKIT contact know about it via Pull Request.
 * Give instructions in a readme file so that anyone with a unix based system could download the repo and run the service on their `localhost`.
-
-### Who do I talk to? ###
-Your LINKIT contact or Repo owner/admin - **Önder Ceylan** on onder.ceylan@linkit.nl 
