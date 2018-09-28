@@ -17,16 +17,21 @@ const flight_1 = require("./flights/flight");
 let MainController = class MainController {
     constructor() {
         this.getFlights = async () => {
+            const newDate1 = new Date();
             const flights = await flight_1.Flight.find();
             if (!flights)
                 throw new routing_controllers_1.NotFoundError(`Destination does not exist`);
+            const newDate2 = new Date();
+            console.log(Number(newDate1) - Number(newDate2));
             return { flights };
         };
         this.getOrigins = async () => {
+            const newDate1 = new Date();
             const flights = await flight_1.Flight.find();
             if (!flights)
                 throw new routing_controllers_1.NotFoundError(`Destination does not exist`);
-            console.log(flights.map(flight => flight.origin));
+            const newDate2 = new Date();
+            console.log(Number(newDate1) - Number(newDate2));
             return flights.map(flight => flight.origin);
         };
     }
@@ -49,10 +54,12 @@ __decorate([
 ], MainController.prototype, "getFlights", void 0);
 __decorate([
     routing_controllers_1.Get('/origins'),
+    routing_controllers_1.HttpCode(200),
     __metadata("design:type", Object)
 ], MainController.prototype, "getOrigins", void 0);
 __decorate([
     routing_controllers_1.Post('/destination'),
+    routing_controllers_1.HttpCode(200),
     __param(0, routing_controllers_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -60,6 +67,7 @@ __decorate([
 ], MainController.prototype, "findDestination", null);
 __decorate([
     routing_controllers_1.Post('/flight'),
+    routing_controllers_1.HttpCode(200),
     __param(0, routing_controllers_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
