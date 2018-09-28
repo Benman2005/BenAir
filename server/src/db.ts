@@ -31,6 +31,7 @@ export default () =>
       entities: [Flight, Response],
       synchronize: true,
       logging: true,
+      logger: "file",
       namingStrategy: new CustomNamingStrategy()
   })
   .then(_ => console.log('Connected to Postgres with TypeORM'))

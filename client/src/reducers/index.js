@@ -4,6 +4,7 @@ import origin from './origin'
 import origins from './origins'
 import destination from './destination'
 import destinations from './destinations'
+import logs from './logs'
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
     origin,
     origins,
     destination,
-    destinations
+    destinations,
+    logs
 })

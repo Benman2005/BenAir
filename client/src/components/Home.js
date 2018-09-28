@@ -14,24 +14,17 @@ class Home extends PureComponent{
         select1:null,
         select2:null
     }
-
     componentDidMount(){
         this.props.getOriginsFromDatabase()
     }
-    // componentDidUpdate(){
-    //     this.props.destinations && this.props.selectDestination(this.props.destinations[0])&& console.log("did update" + this.props.destinations[0])
-    //     this.props.origin && this.props.destination && getFlight(this.props.origin, this.props.destinations[0])
+    // selectDeparture = (origin)=>{
+    //     this.props.selectOrigin(origin)
+    //     this.props.getFlightsFromOrigin(origin)
     // }
-    selectDeparture = (origin)=>{
-        this.props.selectOrigin(origin)
-        this.props.getFlightsFromOrigin(origin)
-
-    }
-
-    selectDestination = (destination)=>{
-        this.props.selectDestination(destination)
-        this.props.getFlight(this.props.origin, destination )
-    }
+    // selectDestination = (destination)=>{
+    //     this.props.selectDestination(destination)
+    //     this.props.getFlight(this.props.origin, destination )
+    // }
     handleChange1 = async (select1) => {
         this.setState({ select1 });
         this.props.selectOrigin(select1.value)
@@ -49,34 +42,23 @@ class Home extends PureComponent{
         let destinationOptions = null
         let originOptions = null
         const { select1, select2 } = this.state;
-
         const {flights, origins, origin, destinations, destination} = this.props
-        
         if(origins) originOptions = origins.map(origin=>{return {value: origin, label: origin}})     
-        
         if(destinations) destinationOptions = destinations.map(destination=> {return {value: destination, label: destination}})
         
         return(
             <div>
-                {/* <Button onClick={()=>this.props.getAllFlights()}> See All Flights</Button> */}
                 <div className="selectOrigin">
                 <Typography variant="title"> Departure From </Typography>
                 {origins && <Select value={select1}
                 onChange={this.handleChange1}
                 options={originOptions}
                 ></Select>}
-                {/* {origins.map(origin=><Button onClick={()=>this.selectDeparture(origin.value)}>{origin.value}</Button>)} */}
                 </div>
-                {origin && <Typography variant="title">
-                Select Destination:
-                </Typography>}
+                    {origin && <Typography variant="title">Select Destination:</Typography>}
                 <div>
-                {destinations && <Select value={select2} onChange={this.handleChange2} options={destinationOptions}></Select>}
+                    {destinations && <Select value={select2} onChange={this.handleChange2} options={destinationOptions}></Select>}
                 </div>
-
-                {/* <div className="destinationsButtons">
-                    {origin && flights && flights.map(flight=><Button key={flight.id} onClick={()=>{this.selectDestination(flight.destination)}}>{flight.destination}</Button>)}
-                </div> */}
                 <div className ="flightsTable">
                     {flights && origin && destination &&
                 <Table>
@@ -109,7 +91,7 @@ class Home extends PureComponent{
                                     {flight.departure} local time
                                 </TableCell>
                                 <TableCell>
-                                € {flight.price}
+                                    € {flight.price}
                                 </TableCell>
                             </TableRow>
                         )})}

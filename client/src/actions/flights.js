@@ -6,6 +6,7 @@ export const UPDATE_FLIGHTS = "UPDATE_FLIGHTS"
 export const UPDATE_ORIGIN = "UPDATE_ORIGIN"
 export const UPDATE_DESTINATION = "UPDATE_DESTINATION"
 export const GET_ORIGINS = 'GET_ORIGINS'
+export const UPDATE_LOGS = "UPDATE_LOGS"
 
 const updateFlights = (flights)=>({
     type: UPDATE_FLIGHTS,
@@ -28,6 +29,11 @@ export const getOrigins = (origins) =>({
     payload: origins
 })
 
+export const updateLogs = (logs) =>({
+    type: UPDATE_LOGS,
+    payload: logs
+})
+
 const logResponse = (response, responseTime)=>{
     const status=response.status
     request.post(`${baseUrl}/response`)
@@ -45,22 +51,41 @@ export const getOriginsFromDatabase = () => (dispatch) =>{
         .catch(err=> console.log(err))
 }
 export const getAllFlights = () => (dispatch) =>{
+    const newDate1 = new Date()
     request
         .get(`${baseUrl}/flights`)
-        .then(result => dispatch(updateFlights(result.body)))
+        .then(result =>{ 
+            const newDate2 = new Date()
+            const dif = newDate2 - newDate1
+            dispatch(updateFlights(result.body))&& logResponse(result, dif)})
         .catch(err=> console.log(err))
 }
 export const getFlightsFromOrigin = (origin) => (dispatch) =>{
+    const newDate1 = new Date()
     request
         .post(`${baseUrl}/destination`)
         .send({origin})
-        .then(res=> dispatch(getDestinations(res.body)))
+        .then(result=>{ 
+            const newDate2 = new Date()
+            const dif = newDate2 - newDate1
+             dispatch(getDestinations(result.body))&& logResponse(result, dif)})
         .catch(err=> console.log(err))
 }
 export const getFlight = (origin, destination) => (dispatch) =>{
+    const newDate1 = new Date()
     request
         .post(`${baseUrl}/flight`)
         .send({origin, destination})
-        .then(result => dispatch(updateFlights(result.body)))
+        .then(result =>{
+            const newDate2 = new Date()
+            const dif = newDate2 - newDate1
+            dispatch(updateFlights(result.body))&& logResponse(result, dif)})
         .catch(err=> console.log(err))
+}
+
+export const getLogs = () => (dispatch)=>{
+    request
+        .get(`${baseUrl}/response`)
+        .then(result=>dispatch(updateLogs(result.body)))
+        .catch(err=>console.log(err))
 }

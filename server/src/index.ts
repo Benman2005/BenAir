@@ -3,7 +3,7 @@ import {createKoaServer, useKoaServer} from "routing-controllers"
 import Controller from "./controller"
 import LogController from './logController';
 import setupDb from './db'
-import * as responseTime from 'response-time'
+
 import {Server} from 'http'
 import * as Koa from 'koa'
 

@@ -25,6 +25,7 @@ exports.default = () => typeorm_1.createConnection({
     entities: [flight_1.Flight, response_1.Response],
     synchronize: true,
     logging: true,
+    logger: "file",
     namingStrategy: new CustomNamingStrategy()
 })
     .then(_ => console.log('Connected to Postgres with TypeORM'));

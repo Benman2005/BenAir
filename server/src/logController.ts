@@ -18,9 +18,9 @@ export default class LogController {
     async getLogs(){
         const logs = await Response.find()
         if(!logs)throw new NotFoundError('no logs to be found...(yet)')
-        const averageTime = logs.map(log=>log.responseTime).reduce((a:number,b:number)=>a+b)/ logs.length
-        const minResponseTime = logs.map(log=>log.responseTime).reduce((a:number, b:number)=>Math.min(a,b))
-        const maxResponseTime = logs.map(log=>log.responseTime).reduce((a:number, b:number)=>Math.max(a,b))
+        const averageTime = logs.map(log=>log.responseTime).reduce((a,b)=>a+b)/ logs.length
+        const minResponseTime = logs.map(log=>log.responseTime).reduce((a,b)=>Math.min(a,b))
+        const maxResponseTime = logs.map(log=>log.responseTime).reduce((a,b)=>Math.max(a,b))
         const twoHundreds = logs.map(log=>log.status.toString()).filter(log=>log.startsWith('2')).length
         const fourHundreds = logs.map(log=>log.status.toString()).filter(log=>log.startsWith('4')).length
         const fiveHundreds = logs.map(log=>log.status.toString()).filter(log=>log.startsWith('5')).length
