@@ -1,0 +1,14 @@
+{
+  "type": "postgres",
+  "url": "postgres://postgres:secret@localhost:5432/postgres",
+  "entities": [
+    "target/flights/flight.js",
+    "target/flights/response.js"
+  ],
+  "synchronize": true,
+  "logging": true,
+  "migrations": ["target/migration/**/*.js"], 
+  "cli": {
+      "migrationsDir": "src/migration"}
+
+}

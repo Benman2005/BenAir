@@ -3,8 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const DefaultNamingStrategy_1 = require("typeorm/naming-strategy/DefaultNamingStrategy");
 const StringUtils_1 = require("typeorm/util/StringUtils");
-const flight_1 = require("./flights/flight");
-const response_1 = require("./flights/response");
 class CustomNamingStrategy extends DefaultNamingStrategy_1.DefaultNamingStrategy {
     tableName(targetName, userSpecifiedName) {
         return userSpecifiedName ? userSpecifiedName : StringUtils_1.snakeCase(targetName) + 's';
@@ -19,14 +17,11 @@ class CustomNamingStrategy extends DefaultNamingStrategy_1.DefaultNamingStrategy
         return StringUtils_1.snakeCase(propertyName);
     }
 }
-exports.default = () => typeorm_1.createConnection({
-    type: "postgres",
-    url: process.env.DATABASE_URL || 'postgres://postgres:secret@localhost:5432/postgres',
-    entities: [flight_1.Flight, response_1.Response],
-    synchronize: true,
-    logging: true,
-    logger: "file",
-    namingStrategy: new CustomNamingStrategy()
-})
-    .then(_ => console.log('Connected to Postgres with TypeORM'));
+exports.default = async () => {
+    const config = await typeorm_1.getConnectionOptions();
+    Object.assign(config, { namingStrategy: new CustomNamingStrategy() });
+    await typeorm_1.createConnection(config)
+        .then(conn => conn.runMigrations())
+        .then(_ => console.log('Connected to Postgres with TypeORM'));
+};
 //# sourceMappingURL=db.js.map

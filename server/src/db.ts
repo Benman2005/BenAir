@@ -1,9 +1,7 @@
-import { createConnection } from 'typeorm'
+import { createConnection, getConnectionOptions } from 'typeorm'
 import { DefaultNamingStrategy } from 'typeorm/naming-strategy/DefaultNamingStrategy'
 import { NamingStrategyInterface } from 'typeorm/naming-strategy/NamingStrategyInterface'
 import { snakeCase } from 'typeorm/util/StringUtils'
-import { Flight } from './flights/flight';
-import { Response } from './flights/response';
 
 class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
 
@@ -24,14 +22,10 @@ class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrate
   }
 }
 
-export default () =>
-  createConnection({
-      type: "postgres",
-      url: process.env.DATABASE_URL || 'postgres://postgres:secret@localhost:5432/postgres',
-      entities: [Flight, Response],
-      synchronize: true,
-      logging: true,
-      logger: "file",
-      namingStrategy: new CustomNamingStrategy()
-  })
+export default async () =>{
+  const config = await getConnectionOptions()
+  Object.assign(config, { namingStrategy: new CustomNamingStrategy() })
+  await createConnection(config)
+  .then(conn=>conn.runMigrations())
   .then(_ => console.log('Connected to Postgres with TypeORM'))
+}
