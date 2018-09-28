@@ -9,7 +9,7 @@
 # production
 /build
 
-/target
+/server/target
 
 # misc
 .DS_Store

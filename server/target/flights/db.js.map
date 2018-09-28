@@ -1,1 +1,0 @@
-{"version":3,"file":"db.js","sourceRoot":"","sources":["../../src/flights/db.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,qCAAyG;AAIzG,IAAa,MAAM,GAAnB,MAAa,MAAO,SAAQ,oBAAU;CAYnC,CAAA;AAVC;IADC,gCAAsB,EAAE;;kCACf;AAGV;IADC,gBAAM,EAAE;;sCACK;AAGd;IADC,gBAAM,EAAE;;2CACU;AAGnB;IADC,gBAAM,EAAE;;yCACQ;AAXR,MAAM;IADlB,gBAAM,EAAE;GACI,MAAM,CAYhB;AAZU,wBAAM"}
