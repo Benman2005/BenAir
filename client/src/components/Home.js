@@ -26,7 +26,7 @@ class Home extends PureComponent{
       this.props.selectOrigin(select1.value)//adds origin to state
       this.props.getFlightsFromOrigin(select1.value) // gets destinations based on origin
       this.setState({select2: null}) // resets 2nd select dropdown(destination) in case of origin change
-      this.props.getFlight(select1.value, this.props.destination) // in case destination already chosen and origin changed, checks if flights available - just for that one scenario
+      this.props.destination && this.props.getFlight(select1.value, this.props.destination) // in case destination already chosen and origin changed, checks if flights available - just for that one scenario
   }
 
   handleChange2 = (select2) => {

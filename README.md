@@ -10,6 +10,7 @@ To run this application you'll need a postgres cient to connect to via something
 * clone folder
 * go to /server folder
 ..* yarn install
+..* yarn watch
 ..* yarn start
 * go to /client folder
 ..* yarn install
